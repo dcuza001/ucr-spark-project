@@ -28,17 +28,18 @@ public class Main {
             System.out.println("Obtaining available trends");
             locations = twitter.getAvailableTrends();
             for (Location location : locations) {
-                System.out.println(location.getName() + " (woeid:" + location.getWoeid() + ")");
+                //System.out.println(location.getName() + " (woeid:" + location.getWoeid() + ")");
+                Trends trends = twitter.getPlaceTrends(location.getWoeid());
+                System.out.println("Showing trends for "+location.getName());
+                System.out.println("As of : " + trends.getAsOf());
+                for (Trend trend : trends.getTrends()) {
+                    System.out.println(" " + trend.getName());
+                }
+                System.out.println("done.");
+                System.exit(0);
+
             }
 
-            Trends trends = twitter.getPlaceTrends(1);
-            System.out.println("Showing trends worldwide with WOEID = 1");
-            System.out.println("As of : " + trends.getAsOf());
-            for (Trend trend : trends.getTrends()) {
-                System.out.println(" " + trend.getName());
-            }
-            System.out.println("done.");
-            System.exit(0);
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get trends: " + te.getMessage());
